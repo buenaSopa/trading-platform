@@ -3,6 +3,10 @@
     color: rgb(172, 172, 172);
 }
 
+select {
+    background-color: #263238;
+}
+
 .box {
     width: 50%;
 }

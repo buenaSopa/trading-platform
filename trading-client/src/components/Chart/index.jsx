@@ -7,7 +7,7 @@ let table = anychart.data.table(), mapping, chart, plot, series;
 
 anychart.onDocumentLoad(function () {
 
-    table.addData(data);
+    table.addData(data.slice(-50));
     //initialized setting
     init()
 
@@ -30,24 +30,26 @@ function init() {
     // defining the chart type
     chart = anychart.stock();
     plot = chart.plot(0)
+
+    chart.scroller().enabled(false);
     
     // set the series type
     series = plot.candlestick(mapping).name('GOOG');
-    // series.legendItem().iconType('rising-falling');/
+    // series.legendItem().iconType('rising-falling');
     
-    chart.scroller().candlestick(mapping);
-    chart.selectRange('2010-01-27', '2021-11-26');
-    // create range picker
-    let rangePicker = anychart.ui.rangePicker();
+    // chart.scroller().candlestick(mapping);
+    // // chart.selectRange('2010-01-27', '2021-11-26');
+    // // create range picker
+    // let rangePicker = anychart.ui.rangePicker();
     
-    // init range picker
-    rangePicker.render(chart);
+    // // init range picker
+    // rangePicker.render(chart);
     
-    // create range selector
-    let rangeSelector = anychart.ui.rangeSelector();
+    // // create range selector
+    // let rangeSelector = anychart.ui.rangeSelector();
     
-    // init range selector
-    rangeSelector.render(chart);
+    // // init range selector
+    // rangeSelector.render(chart);
     
     // set grid settings
     plot.yGrid(true).xGrid(true).yMinorGrid(true).xMinorGrid(true);
