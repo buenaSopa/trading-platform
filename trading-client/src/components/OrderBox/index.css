@@ -1,0 +1,31 @@
+.main-box {
+    background-color: #263238;
+    color: rgb(172, 172, 172);
+}
+
+.box {
+    width: 50%;
+}
+
+.btn {
+    flex-grow: 1;
+    color: aliceblue;
+    border-radius: 0.375rem
+}
+
+.buy-button {
+    background-color: rgb(32, 180, 19);
+}
+
+.buy-button:hover {
+    background-color: rgb(8, 95, 0);
+}
+
+.sell-button {
+    background-color: rgb(205, 8, 8);
+}
+
+.sell-button:hover {
+    background-color: rgb(110, 0, 0);
+}
+
