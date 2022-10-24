@@ -4,17 +4,17 @@ Small scaled trading platform simulator containing trading engine and client int
 ## Techstack
 ### trading engine
 - Golang
-- segmentio/kafka-go
+- Kafka-go
 
 ### client interface
-- anyStock
-- react
-- tailwindcss
-- kafka js
+- AnyStock
+- React js
+- Tailwindcss
+- Kafka js
 
 ### Architechture
-- microservices with kafka
-- event driven
+- Microservices with kafka
+- Event driven
 
 
 
