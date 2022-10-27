@@ -6,6 +6,8 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
 
+
+
   kafka:
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
     # An important note about accessing Kafka from clients on other machines: 
@@ -24,6 +26,8 @@ services:
     # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
     #
+
+    #use hostname -I | awk '{print $1}' to get local ip
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
