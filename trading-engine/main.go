@@ -17,18 +17,17 @@ func main() {
 
 	consumer := consumer.CreateConsumer()
 
-	go submitOrder()
+	// go submitOrder()
 
 	for {
 		m, err := consumer.ReadMessage(context.Background())
 		if err != nil {
 			fmt.Println("Some error")
+			fmt.Println(err)
 			continue
 		}
 
-		fmt.Println("----------------------------")
-		fmt.Println("Order message: ", string(m.Value))
-		fmt.Println("----------------------------")
+		fmt.Println(string(m.Value))
 	}
 
 }

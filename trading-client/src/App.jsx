@@ -2,6 +2,11 @@ import { useState, useEffect } from 'react'
 import Chart from './components/Chart'
 import OrderBook from './components/OrderBook'
 import OrderBox from './components/OrderBox'
+import { io } from 'socket.io-client'
+
+
+let socket = io('ws://localhost:3000');
+
 
 function App() {
   return (
@@ -21,3 +26,4 @@ function App() {
 }
 
 export default App
+export {socket}

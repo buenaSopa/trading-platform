@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import "./index.css"
 import { numberWithCommas } from '../../myLib';
+import { socket } from '../../App';
 
 const sideIds = {
     0: "sell",
@@ -21,6 +22,8 @@ const Box = ({side}) => {
 
         //publish to kafka producer component
         console.log({side, orderType, price, amount})
+
+        socket.emit("message", `Order: ${side} ${orderType} ${price} ${amount} `)
     }
 
     return (
