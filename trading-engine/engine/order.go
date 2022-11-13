@@ -1,12 +1,23 @@
 package engine
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+)
+
+//constant
+var orderType = [3]string{"limit", "market", "stop"}
 
 type Order struct {
 	Amount uint64 `json:"amount"`
 	Price  uint64 `json:"price"`
-	ID     string `json:"id"`
+	ID     uint64 `json:"id"`
 	Side   int8   `json:"side"`
+	Type   int8   `json:"type"`
+}
+
+func (order Order) String() string {
+	return fmt.Sprintf("{ID:%d, Amount:%d, Price:%d} ", order.ID, order.Amount, order.Price)
 }
 
 func (order *Order) FromJSON(msg []byte) error {

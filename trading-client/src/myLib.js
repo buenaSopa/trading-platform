@@ -26,4 +26,9 @@ function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export { waitForElm, randint , numberWithCommas} 
+function getObjKey(obj, value) {
+    return Object.keys(obj).find(key => obj[key] === value);
+}
+
+  
+export { waitForElm, randint , numberWithCommas, getObjKey} 

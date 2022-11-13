@@ -7,7 +7,7 @@ import (
 func CreateConsumer() *kafka.Reader {
 	conf := kafka.ReaderConfig{
 		Brokers:  []string{":9092"},
-		Topic:    "order",
+		Topic:    "orders",
 		GroupID:  "g1",
 		MaxBytes: 10,
 	}

@@ -24,7 +24,6 @@ services:
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
     #
 
-    #use hostname -I | awk '{print $1}' to get local ip
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
@@ -37,13 +36,18 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-  trading-client:
-    build: ./trading-client
-    # ports:
-    #   - 5173:5173
-    network_mode: "host"
-  trading-server:
-    build: ./trading-server
-    # ports:
-    #   - 3000:3000
-    network_mode: "host"
+  # trading-client:
+  #   build: ./trading-client
+  #   # ports:
+  #   #   - 5173:5173
+  #   network_mode: "host"
+  # trading-server:
+  #   build: ./trading-server
+  #   # ports:
+  #   #   - 3000:3000
+  #   network_mode: "host"
+  # trading-engine:
+  #   build: ./trading-engine
+  #   depends_on:
+  #     - kafka
+  #   network_mode: "host"

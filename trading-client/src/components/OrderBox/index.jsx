@@ -1,16 +1,21 @@
 import React from 'react';
 import { useState } from 'react';
 import "./index.css"
-import { numberWithCommas } from '../../myLib';
+import { numberWithCommas, getObjKey} from '../../myLib';
 import { socket } from '../../App';
 
-const sideIds = {
+const sideCode = {
     0: "sell",
     1: "buy"
 }
 
-let accountCash = 102000
+const typeCode = {
+    0: "limit",
+    1: "market",
+    2: "stop"
+}
 
+let accountCash = 102000
 
 const Box = ({side}) => {
     const [orderType, setOrderType] = useState('limit')
@@ -20,10 +25,13 @@ const Box = ({side}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        //publish to kafka producer component
-        console.log({side, orderType, price, amount})
-
-        socket.emit("message", `Order: ${side} ${orderType} ${price} ${amount} `)
+        if (price <= 0 || amount <= 0) {
+            alert("Input price or amount can not be less than 1")
+        } else {
+            //publish to trade server using websocket
+            socket.emit("message", `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${price}, "amount" : ${amount} }`)
+            alert("order sent")
+        }
     }
 
     return (
@@ -73,7 +81,7 @@ const Box = ({side}) => {
                     <h3 className='py-2 px-3 right-0 '>GOOG</h3>
                 </div>
                 <div className=' flex'>
-                    <button className={side === 1 ? 'buy-button btn' : 'sell-button btn'}>{sideIds[side]}</button>
+                    <button className={side === 1 ? 'buy-button btn' : 'sell-button btn'}>{sideCode[side]}</button>
                 </div>
 
             </form>

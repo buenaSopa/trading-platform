@@ -3,12 +3,9 @@ package main
 import (
 	"context"
 	"exchange/consumer"
-	"exchange/producer"
+	"exchange/engine"
 	"fmt"
-	"log"
 	"os"
-
-	"github.com/segmentio/kafka-go"
 )
 
 func main() {
@@ -16,41 +13,64 @@ func main() {
 	os.Setenv("TOPIC", "my-topic")
 
 	consumer := consumer.CreateConsumer()
+	// producer := producer.CreateProducer()
 
-	// go submitOrder()
+	// create the order book
+	book := engine.OrderBook{
+		BuyOrders:  make([]engine.Order, 0, 100),
+		SellOrders: make([]engine.Order, 0, 100),
+	}
+
+	// create a signal channel to know when we are done
 
 	for {
-		m, err := consumer.ReadMessage(context.Background())
+		msg, err := consumer.ReadMessage(context.Background())
 		if err != nil {
-			fmt.Println("Some error")
 			fmt.Println(err)
 			continue
 		}
+		var order engine.Order
 
-		fmt.Println(string(m.Value))
-	}
+		order.FromJSON(msg.Value)
 
-}
+		trades := book.Process(order)
 
-func submitOrder() {
-	producer := producer.CreateProducer()
+		fmt.Println("buyOrder: ", book.BuyOrders)
+		fmt.Println("sellOrder: ", book.SellOrders)
+		fmt.Println("tradeOrder: ", trades)
+		fmt.Println("--")
 
-	for {
-		var amn string
-		ctx := context.Background()
+		// fmt.Println(trades)
 
-		fmt.Print("Amount: ")
-		_, err := fmt.Scan(&amn)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		msg := kafka.Message{
-			Value: []byte(amn),
-		}
-		producer.WriteMessages(ctx, msg)
+		// for _, trade := range trades {
+		// 	rawTrade := trade.ToJSON()
+		// 	ctx := context.Background()
+		// 	msg := kafka.Message{Value: []byte(rawTrade)}
+		// 	fmt.Println(rawTrade)
+		// 	producer.WriteMessages(ctx, msg)
+		// }
 	}
 }
+
+// func submitOrder() {
+// 	producer := producer.CreateProducer()
+
+// 	for {
+// 		var amn string
+// 		ctx := context.Background()
+
+// 		fmt.Print("Amount: ")
+// 		_, err := fmt.Scan(&amn)
+// 		if err != nil {
+// 			log.Fatal(err)
+// 		}
+
+// 		msg := kafka.Message{
+// 			Value: []byte(amn),
+// 		}
+// 		producer.WriteMessages(ctx, msg)
+// 	}
+// }
 
 //// create the consumer and listen for new order messages
 // 	consumer := createConsumer()

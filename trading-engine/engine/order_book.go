@@ -9,36 +9,54 @@ type OrderBook struct {
 // Add a buy order to the order book
 func (book *OrderBook) addBuyOrder(order Order) {
 	n := len(book.BuyOrders)
-	var i int
+	var pos int
 	for i := n - 1; i >= 0; i-- {
+		// The order of the buy order in BuyOrders[] is ascending price, descending id so that the order that is the same price but
+		// queue earlier wil get process first, first come first serve.
 		buyOrder := book.BuyOrders[i]
+		pos = i
+		// fmt.Println("i: ", i)
 		if buyOrder.Price < order.Price {
+			pos = i + 1
 			break
 		}
 	}
-	if i == n-1 {
+
+	// fmt.Println("pos: ", pos)
+
+	if n == 0 {
+		// if BuyOrders[] is empty, straight append
 		book.BuyOrders = append(book.BuyOrders, order)
 	} else {
-		copy(book.BuyOrders[i+1:], book.BuyOrders[i:])
-		book.BuyOrders[i] = order
+		// else increase the size of BuyOrders[] using append. If order {position: element} is insert 2:e,
+		// [0:a, 1:b, 2:c, 3:d] -> [0:a, 1:b, 2:c, 3:d, 4:e], and copy, [0:a, 1:b, 2:c, 3:d, 4:e] -> [0:a, 1:b, 2:e, 3:c, 4:d] 5:e
+		// 5:e will be deleted
+		book.BuyOrders = append(book.BuyOrders, order)
+		copy(book.BuyOrders[pos+1:], book.BuyOrders[pos:])
+		book.BuyOrders[pos] = order
 	}
 }
 
 // Add a sell order to the order book
 func (book *OrderBook) addSellOrder(order Order) {
+	// Order is descending price, descending id, first come first serve.
 	n := len(book.SellOrders)
-	var i int
+	var pos int
 	for i := n - 1; i >= 0; i-- {
 		sellOrder := book.SellOrders[i]
+		pos = i
 		if sellOrder.Price > order.Price {
+			pos = i + 1
 			break
 		}
 	}
-	if i == n-1 {
+
+	if n == 0 {
 		book.SellOrders = append(book.SellOrders, order)
 	} else {
-		copy(book.SellOrders[i+1:], book.SellOrders[i:])
-		book.SellOrders[i] = order
+		book.SellOrders = append(book.SellOrders, order)
+		copy(book.SellOrders[pos+1:], book.SellOrders[pos:])
+		book.SellOrders[pos] = order
 	}
 }
 
