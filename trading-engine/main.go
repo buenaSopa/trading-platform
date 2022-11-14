@@ -4,8 +4,11 @@ import (
 	"context"
 	"exchange/consumer"
 	"exchange/engine"
+	"exchange/producer"
 	"fmt"
 	"os"
+
+	"github.com/segmentio/kafka-go"
 )
 
 var orderSide = [2]string{"sell", "buy"}
@@ -15,7 +18,7 @@ func main() {
 	os.Setenv("TOPIC", "my-topic")
 
 	consumer := consumer.CreateConsumer()
-	// producer := producer.CreateProducer()
+	producer := producer.CreateProducer()
 
 	// create the order book
 	book := engine.OrderBook{
@@ -44,15 +47,12 @@ func main() {
 		fmt.Println("tradeOrder: ", trades)
 		fmt.Println("--")
 
-		// fmt.Println(trades)
-
-		// for _, trade := range trades {
-		// 	rawTrade := trade.ToJSON()
-		// 	ctx := context.Background()
-		// 	msg := kafka.Message{Value: []byte(rawTrade)}
-		// 	fmt.Println(rawTrade)
-		// 	producer.WriteMessages(ctx, msg)
-		// }
+		for _, trade := range trades {
+			rawTrade := trade.ToJSON()
+			ctx := context.Background()
+			msg := kafka.Message{Value: []byte(rawTrade)}
+			producer.WriteMessages(ctx, msg)
+		}
 	}
 }
 
