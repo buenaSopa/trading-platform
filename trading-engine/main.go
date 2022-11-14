@@ -8,6 +8,8 @@ import (
 	"os"
 )
 
+var orderSide = [2]string{"sell", "buy"}
+
 func main() {
 
 	os.Setenv("TOPIC", "my-topic")
@@ -34,6 +36,8 @@ func main() {
 		order.FromJSON(msg.Value)
 
 		trades := book.Process(order)
+
+		fmt.Println("order in: ", order, " ", orderSide[order.Side], " side")
 
 		fmt.Println("buyOrder: ", book.BuyOrders)
 		fmt.Println("sellOrder: ", book.SellOrders)

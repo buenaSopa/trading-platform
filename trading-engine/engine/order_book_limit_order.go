@@ -1,7 +1,5 @@
 package engine
 
-import "fmt"
-
 // Process an order and return the trades generated before adding the remaining amount to the market
 func (book *OrderBook) Process(order Order) []Trade {
 	if order.Side == 1 {
@@ -12,13 +10,13 @@ func (book *OrderBook) Process(order Order) []Trade {
 
 // Process a limit buy order
 func (book *OrderBook) processLimitBuy(order Order) []Trade {
-	fmt.Println("point 1")
+	// fmt.Println("point 1")
 	trades := make([]Trade, 0, 1)
 	n := len(book.SellOrders)
 	// check if we have at least one matching order
 	// if there is orders in sellOrders[] AND buy order price is bigger or equal than the smallest price in the sellOrders[]
 	if n != 0 && book.SellOrders[n-1].Price <= order.Price {
-		fmt.Println("point 2")
+		// fmt.Println("point 2")
 		// traverse all orders that match
 		// given a scenario, 100 $15 buy order will fill 10 $13 sell order, 30 $14 sell order and 60 $15 sell order
 		for i := n - 1; i >= 0; i-- {
@@ -26,24 +24,24 @@ func (book *OrderBook) processLimitBuy(order Order) []Trade {
 			if sellOrder.Price > order.Price {
 				break
 			}
-			fmt.Println("i: ", i)
+			// fmt.Println("i: ", i)
 			// fill the entire order
 			if sellOrder.Amount >= order.Amount {
-				fmt.Println("point 3")
-				fmt.Println("before: ", sellOrder)
+				// fmt.Println("point 3")
+				// fmt.Println("before: ", sellOrder)
 				trades = append(trades, Trade{order.ID, sellOrder.ID, order.Amount, sellOrder.Price})
 				sellOrder.Amount -= order.Amount
-				fmt.Println("after: ", sellOrder)
+				// fmt.Println("after: ", sellOrder)
 				book.SellOrders[i] = sellOrder
 				if sellOrder.Amount == 0 {
-					fmt.Println("point 5")
+					// fmt.Println("point 5")
 					book.removeSellOrder(i)
 				}
 				return trades
 			}
 			// fill a partial order and continue
 			if sellOrder.Amount < order.Amount {
-				fmt.Println("point 4")
+				// fmt.Println("point 4")
 				trades = append(trades, Trade{order.ID, sellOrder.ID, sellOrder.Amount, sellOrder.Price})
 				order.Amount -= sellOrder.Amount
 				book.removeSellOrder(i)

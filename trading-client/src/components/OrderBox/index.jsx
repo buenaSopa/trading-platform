@@ -21,15 +21,53 @@ const Box = ({side}) => {
     const [orderType, setOrderType] = useState('limit')
     const [price, setPrice] = useState('')
     const [amount, setAmount] = useState('')
+
+    let priceInput;
+
+    if (orderType == "market"){
+        priceInput = <div className=" flex-row flex rounded-md bg-transparent border-2 border-gray-600">
+                        <h3 className='py-2 pl-3 pr-9'>Price</h3>
+                        <input 
+                            type="number"
+                            className="text-slate-50 w-full pl-2 bg-transparent " 
+                            placeholder="Market Price" 
+                            value={''}
+                            onChange={(e)=> setPrice(e.target.value)}
+                            disabled = {true}
+                        />
+                        <h3 className='py-2 px-3 right-0 '>USD</h3>
+                    </div>
+    } else {
+        priceInput = <div className=" flex-row flex rounded-md bg-transparent border-2 border-gray-600">
+                        <h3 className='py-2 pl-3 pr-9'>Price</h3>
+                        <input 
+                            type="number"
+                            className="text-slate-50 w-full pl-2 bg-transparent " 
+                            placeholder="100.00" 
+                            value={price}
+                            onChange={(e)=> setPrice(e.target.value)}
+                            required
+                        />
+                        <h3 className='py-2 px-3 right-0 '>USD</h3>
+                    </div>
+    }
     
     const handleSubmit = (e) => {
         e.preventDefault()
 
         if (price <= 0 || amount <= 0) {
             alert("Input price or amount can not be less than 1")
-        } else {
-            //publish to trade server using websocket
-            socket.emit("message", `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${price}, "amount" : ${amount} }`)
+        } else {            
+            let msg
+            if (orderType == 'market') {
+                msg = `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${null}, "amount" : ${amount} }`
+                console.log(msg)
+                socket.emit("message", msg)
+            } else {
+                msg = `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${price}, "amount" : ${amount} }`
+                console.log(msg)
+                socket.emit("message", msg)
+            }
             alert("order sent")
         }
     }
@@ -56,18 +94,8 @@ const Box = ({side}) => {
                     </select>
                 </div>
 
-                <div className=" flex-row flex rounded-md bg-transparent border-2 border-gray-600">
-                    <h3 className='py-2 pl-3 pr-9'>Price</h3>
-                    <input 
-                        type="number"
-                        className="text-slate-50 w-full pl-2 bg-transparent " 
-                        placeholder="100.00" 
-                        value={price}
-                        onChange={(e)=> setPrice(e.target.value)}
-                        required
-                    />
-                    <h3 className='py-2 px-3 right-0 '>USD</h3>
-                </div>
+                {priceInput}
+
                 <div className=" flex-row flex rounded-md bg-transparent border-2 border-gray-600">
                     <h3 className='py-2 px-3 '>Amount</h3>
                     <input 
