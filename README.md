@@ -6,7 +6,7 @@ A small scaled trading platform simulator containing trading engine and client i
 - Golang
 - Kafka-go
 
-## trading server
+### trading server
 - Nodejs
 - Websocket
 
