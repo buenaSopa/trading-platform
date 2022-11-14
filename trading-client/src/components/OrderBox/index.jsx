@@ -90,7 +90,7 @@ const Box = ({side}) => {
                     >
                         <option value="limit">Limit Order</option>
                         <option value="market">Market Order</option>
-                        <option value="stop">Stop Order</option>
+                        {/* <option value="stop">Stop Order</option> */}
                     </select>
                 </div>
 

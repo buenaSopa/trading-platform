@@ -10,20 +10,28 @@ type OrderBook struct {
 func (book *OrderBook) addBuyOrder(order Order) {
 	n := len(book.BuyOrders)
 	var pos int
-	for i := n - 1; i >= 0; i-- {
-		// The order of the buy order in BuyOrders[] is ascending price, descending id so that the order that is the same price but
-		// queue earlier wil get process first, first come first serve.
-		buyOrder := book.BuyOrders[i]
-		pos = i
-		// fmt.Println("i: ", i)
-		if buyOrder.Price < order.Price {
-			pos = i + 1
-			break
+
+	//always add market order at the end
+	if order.Type == 1 {
+		for i := n - 1; i >= 0; i-- {
+			buyOrder := book.BuyOrders[i]
+			if buyOrder.Type != 1 {
+				pos = i + 1
+				break
+			}
+		}
+	} else {
+		for i := n - 1; i >= 0; i-- {
+			// The order of the buy order in BuyOrders[] is ascending price, descending id so that the order that is the same price but
+			// queue earlier wil get process first, first come first serve.
+			buyOrder := book.BuyOrders[i]
+			pos = i
+			if buyOrder.Price < order.Price && buyOrder.Type != 1 {
+				pos = i + 1
+				break
+			}
 		}
 	}
-
-	// fmt.Println("pos: ", pos)
-
 	if n == 0 {
 		// if BuyOrders[] is empty, straight append
 		book.BuyOrders = append(book.BuyOrders, order)
@@ -37,20 +45,29 @@ func (book *OrderBook) addBuyOrder(order Order) {
 	}
 }
 
-// Add a sell order to the order book
 func (book *OrderBook) addSellOrder(order Order) {
-	// Order is descending price, descending id, first come first serve.
 	n := len(book.SellOrders)
 	var pos int
-	for i := n - 1; i >= 0; i-- {
-		sellOrder := book.SellOrders[i]
-		pos = i
-		if sellOrder.Price > order.Price {
-			pos = i + 1
-			break
+
+	if order.Type == 1 {
+		for i := n - 1; i >= 0; i-- {
+			sellOrder := book.SellOrders[i]
+			if sellOrder.Type != 1 {
+				pos = i + 1
+				break
+			}
+		}
+	} else {
+		// Order is descending price, descending id, first come first serve.
+		for i := n - 1; i >= 0; i-- {
+			sellOrder := book.SellOrders[i]
+			pos = i
+			if sellOrder.Price > order.Price && sellOrder.Type != 1 {
+				pos = i + 1
+				break
+			}
 		}
 	}
-
 	if n == 0 {
 		book.SellOrders = append(book.SellOrders, order)
 	} else {

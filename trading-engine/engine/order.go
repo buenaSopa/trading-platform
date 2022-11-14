@@ -17,7 +17,7 @@ type Order struct {
 }
 
 func (order Order) String() string {
-	return fmt.Sprintf("{ID:%d, Amount:%d, Price:%d} ", order.ID, order.Amount, order.Price)
+	return fmt.Sprintf("{ID:%d, Amount:%d, Price:%d, Type:%s} ", order.ID, order.Amount, order.Price, orderType[order.Type])
 }
 
 func (order *Order) FromJSON(msg []byte) error {
