@@ -54,21 +54,32 @@ const Box = ({side}) => {
     
     const handleSubmit = (e) => {
         e.preventDefault()
+        let msg
 
-        if (price <= 0 || amount <= 0) {
-            alert("Input price or amount can not be less than 1")
-        } else {            
-            let msg
+        if (typeof socket === 'undefined') {
+            alert("Try again, attempting to connect to server...")
+        } else {
+
             if (orderType == 'market') {
                 msg = `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${null}, "amount" : ${amount} }`
                 console.log(msg)
-                socket.emit("message", msg)
+
+                socket.emit("orders", msg)
+    
+                alert("order sent") 
+
             } else {
-                msg = `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${price}, "amount" : ${amount} }`
-                console.log(msg)
-                socket.emit("message", msg)
+                if (price <= 0 || amount <= 0) {
+                    alert("Input price or amount can not be less than 1")
+                } else {
+                    msg = `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${price}, "amount" : ${amount} }`
+                    console.log(msg)
+
+                    socket.emit("orders", msg)
+
+                    alert("order sent") 
+                }
             }
-            alert("order sent")
         }
     }
 
