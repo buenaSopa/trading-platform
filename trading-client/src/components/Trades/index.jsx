@@ -55,7 +55,7 @@ const Trades = () => {
 
     return (
         <div className='main-book border-2 border-gray-600 overflow-y-scroll'>
-            <p className='text-center pt-2 text-xs'>Trades {time}</p>
+            <p className='text-center py-1 text-xs'>Trades {time}</p>
             <table className=''>
                 <thead className=''>
                     <tr>

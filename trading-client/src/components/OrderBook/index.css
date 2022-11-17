@@ -5,27 +5,14 @@
     width: 100%;
 }
 
-.title {
-    font-size: 1.5vw;
-    text-align: center;
-}
-
-.header {
-    font-size: 1vw;
+.slice {
+    height: 44%;
 }
 
 table {
     font-size: 1vw;
     height: fit-content;
     width: 100%;
-}
-
-th {
-    font-weight: normal;
-}
-
-td {
-    text-align: center;
 }
 
 .buy {

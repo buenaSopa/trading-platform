@@ -19,11 +19,11 @@ function App() {
           <OrderBox socket={socket}/>
         </div>
       </div>
-      <div className='flex flex-col grow bg-slate-600'>
-        <div className='h-1/2'>
+      <div className='flex flex-col grow bg-slate-600 w-1/4'>
+        <div style={{height:'60%'}}>
           <OrderBook />
         </div>
-        <div className='h-1/2'>
+        <div style={{height:'40%'}}>
           <Trades />
         </div>
       </div>

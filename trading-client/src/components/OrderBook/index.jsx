@@ -1,7 +1,42 @@
-import React from 'react';
+import {React, useEffect, useState} from 'react';
 import './index.css'
 
 const sellOrder = [
+    [
+        8000,
+        29000,
+        134000
+    ],
+    [
+        8000,
+        29000,
+        134000
+    ],
+    [
+        8000,
+        29000,
+        134000
+    ],
+    [
+        8000,
+        29000,
+        134000
+    ],
+    [
+        8000,
+        29000,
+        134000
+    ],
+    [
+        8000,
+        29000,
+        134000
+    ],
+    [
+        8000,
+        29000,
+        134000
+    ],
     [
         8000,
         29000,
@@ -22,36 +57,44 @@ const sideIds = {
     1: "buy"
 }
 
-const OrderList = ({ list, side}) => (
+const OrderList = ({list, side}) => (
     list.map(item => (
-        <tr key={item}>
-            <td className={sideIds[side]}>{item[0]}</td>
-            <td>{item[1]}</td>
-            <td>{item[2]}</td>
-        </tr>
+        <div className='flex shrink text-xs text-center grow'>
+            <p className={`grow ${sideIds[side]}`}>{item[0]}</p>
+            <p className=' grow'>{item[1]}</p>
+            <p className=' grow'>{item[2]}</p>
+        </div>
+
     ))
 );
 
 const OrderBook = () => {
-    return (
-        <div className='main-book border-2 border-gray-600'>
-            <h1 className='title py-4'>Order Book</h1>
-            <table className='table-auto'>
-                <thead className='header'>
-                    <tr>
-                        <th>PRICE</th>
-                        <th>QUANTITY</th>
-                        <th>TOTAL</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <OrderList list={sellOrder} side={0} />
-                
-                <tr><td colSpan={3} className="spread">Spread: 5.0 (0.04%)</td></tr>
+    const [buyOrders, setBuyOrders] = useState([]);
+    const [sellOrders, setsellOrders] = useState([]);
 
-                <OrderList list={buyOrder} side={1} />
-                </tbody>
-            </table>
+
+    return (
+        <div className='main-book border-2 border-gray-600 flex flex-col '>
+            <h1 className='p1-2 text-xs text-center'>Order Book</h1>
+            <div className='grow'>
+
+                <div className='flex font-black shrink text-xs text-center grow'>
+                    <p className='grow'>PRICE</p>
+                    <p className='grow'>QUANTITY</p>
+                    <p className='grow'>TOTAL</p>
+                </div>
+
+                <div className='slice bg-black flex flex-col'>
+                    <OrderList list={sellOrder.slice(0,8)} side={0} />
+                </div>
+
+                <div className='text-center text-xs'>Spread</div>
+
+                <div className='slice bg-black'>
+                    <OrderList list={buyOrder.slice(0,8)} side={1} />
+                </div>
+
+            </div>
         </div>
     );
 };
