@@ -1,6 +1,7 @@
 import {React, useEffect, useState} from 'react';
 import './index.css'
 import { socket } from '../../App';
+import { fixedFloating } from '../../myLib';
 
 
 const Trades = () => {
@@ -11,24 +12,24 @@ const Trades = () => {
         return (
             list.map((item, index) => (
                 <tr key={index}>
-                    <td>{item.price}</td>
-                    <td>{item.amount}</td>
-                    <td>{item.datetime}</td>
+                    <td className='text-center'>{item.price}</td>
+                    <td className='text-center'>{item.amount}</td>
+                    <td className='text-center'>{item.datetime}</td>
                 </tr>
             ))
         )
     }
 
-
     const reconnect = () => {
         setTimeout(() => {
             if (socket) {
-                console.log("socket initialized in parent component")
+                console.log("trades socket initialized in parent component")
                 socket.on("trades", (msg)=> {
                     let obj = JSON.parse(msg)
                     var dateNow = new Date()
                     obj.datetime = `${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
-                    console.log("trades received: ", obj, time)
+                    obj.price = fixedFloating(obj.price)
+                    // console.log("trades received: ", obj, time)
                     setTrades(trades => [obj, ...trades])
                 })
             } else {
@@ -40,9 +41,6 @@ const Trades = () => {
 
     useEffect(() => {
         reconnect()      
-    },[]);
-
-    useEffect(() => {
         const interval = setInterval(() => {
             var date = new Date()
             setTime(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
@@ -51,7 +49,7 @@ const Trades = () => {
         return ()=>{
             clearInterval(interval)
         }
-    },[])
+    }, [])
 
     return (
         <div className='main-book border-2 border-gray-600 overflow-y-scroll'>

@@ -5,8 +5,12 @@
     width: 100%;
 }
 
+.row-data {
+    height: 12.5%;
+}
+
 .slice {
-    height: 44%;
+    height: 40%;
 }
 
 table {

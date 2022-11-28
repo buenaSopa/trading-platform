@@ -43,7 +43,9 @@ const Box = ({side}) => {
                         <input 
                             type="number"
                             className="text-slate-50 w-full pl-2 bg-transparent " 
-                            placeholder="100.00" 
+                            placeholder="15.00"
+                            min="1"
+                            step=".01"
                             value={price}
                             onChange={(e)=> setPrice(e.target.value)}
                             required
@@ -70,7 +72,7 @@ const Box = ({side}) => {
 
             } else {
                 if (price <= 0 || amount <= 0) {
-                    alert("Input price or amount can not be less than 1")
+                    alert("Input price or amount must be bigger than 0")
                 } else {
                     msg = `{ "side" : ${side}, "type" : ${getObjKey(typeCode, orderType)}, "price" :  ${price}, "amount" : ${amount} }`
                     console.log(msg)
@@ -112,10 +114,16 @@ const Box = ({side}) => {
                     <input 
                         type="number"
                         className="text-slate-50 w-full  pl-2 bg-transparent " 
-                        placeholder="10,000.00"
+                        placeholder="100"
                         value={amount} 
                         onChange={(e)=> setAmount(e.target.value)}
                         required
+                        step="1"
+                        onKeyPress={(event) => {
+                            if (!/[0-9]/.test(event.key)) {
+                              event.preventDefault();
+                            }
+                          }}
                     />
                     <h3 className='py-2 px-3 right-0 '>GOOG</h3>
                 </div>

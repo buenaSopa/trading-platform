@@ -100,7 +100,7 @@ func (book *OrderBook) processLimitBuy(order Order) []Trade {
 			}
 			// fill the entire order
 			if sellOrder.Amount >= order.Amount {
-				var price uint64
+				var price float64
 				if sellOrder.Type == 1 {
 					price = order.Price
 				} else {
@@ -117,7 +117,7 @@ func (book *OrderBook) processLimitBuy(order Order) []Trade {
 			}
 			// fill a partial order and continue
 			if sellOrder.Amount < order.Amount {
-				var price uint64
+				var price float64
 				if sellOrder.Type == 1 {
 					price = order.Price
 				} else {
@@ -154,7 +154,7 @@ func (book *OrderBook) processLimitSell(order Order) []Trade {
 			}
 			// fill the entire order
 			if buyOrder.Amount >= order.Amount {
-				var price uint64
+				var price float64
 				if buyOrder.Type == 1 {
 					price = order.Price
 				} else {
@@ -171,7 +171,7 @@ func (book *OrderBook) processLimitSell(order Order) []Trade {
 			}
 			// fill a partial order and continue
 			if buyOrder.Amount < order.Amount {
-				var price uint64
+				var price float64
 				if buyOrder.Type == 1 {
 					price = order.Price
 				} else {

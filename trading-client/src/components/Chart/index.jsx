@@ -25,7 +25,6 @@ function init() {
     mapping.addField('high', 2, 'max');
     mapping.addField('low', 3, 'min');
     mapping.addField('close', 4, 'last');
-    mapping.addField('value', 4, 'last');
     
     // defining the chart type
     chart = anychart.stock();

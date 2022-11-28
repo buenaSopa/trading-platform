@@ -30,5 +30,9 @@ function getObjKey(obj, value) {
     return Object.keys(obj).find(key => obj[key] === value);
 }
 
+function fixedFloating(f) {
+    return Number((f).toFixed(5))
+}
+
   
-export { waitForElm, randint , numberWithCommas, getObjKey} 
+export { waitForElm, randint , numberWithCommas, getObjKey, fixedFloating} 

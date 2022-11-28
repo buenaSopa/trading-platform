@@ -1,10 +1,14 @@
 version: '2'
 services:
   zookeeper:
+    user: "0:0"
     image: confluentinc/cp-zookeeper:latest
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+    volumes: 
+      - ./zoo/data:/var/lib/zookeeper/data:rw
+      - ./zoo/log:/var/lib/zookeeper/log:rw
   kafka:
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
     # An important note about accessing Kafka from clients on other machines: 
@@ -23,7 +27,7 @@ services:
     # See https://rmoff.net/2018/08/02/kafka-listeners-explained/ for details
     # "`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-'"`-._,-
     #
-
+    user: "0:0"
     image: confluentinc/cp-kafka:latest
     depends_on:
       - zookeeper
@@ -36,6 +40,10 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_DELETE_TOPIC_ENABLE: "true"
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: 'false'
+    volumes: 
+      - ./broker/data:/var/lib/kafka/data:rw
   # trading-client:
   #   build: ./trading-client
   #   # ports:
