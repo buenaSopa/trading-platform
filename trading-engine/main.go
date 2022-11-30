@@ -36,8 +36,6 @@ func main() {
 	// create a signal channel to know when we are done
 
 	for {
-		fmt.Println("got it")
-
 		msg, err := consumer.ReadMessage(context.Background())
 		if err != nil {
 			fmt.Println(err)
@@ -56,17 +54,27 @@ func main() {
 		fmt.Println("tradeOrder: ", trades)
 		fmt.Println("--")
 
-		rawBuyOrderBook, _ := json.Marshal(book.BuyOrders)
-		buyOrderBookProducer.WriteMessages(context.Background(), kafka.Message{Value: []byte(rawBuyOrderBook)})
+		fmt.Println("sending back")
+		go func() {
+			rawBuyOrderBook, _ := json.Marshal(book.BuyOrders)
+			buyOrderBookProducer.WriteMessages(context.Background(), kafka.Message{Value: []byte(rawBuyOrderBook)})
+			fmt.Println("sent buyorderbook back")
+		}()
 
-		rawSellOrderBook, _ := json.Marshal(book.SellOrders)
-		sellOrderBookProducer.WriteMessages(context.Background(), kafka.Message{Value: []byte(rawSellOrderBook)})
+		go func() {
+			rawSellOrderBook, _ := json.Marshal(book.SellOrders)
+			sellOrderBookProducer.WriteMessages(context.Background(), kafka.Message{Value: []byte(rawSellOrderBook)})
+			fmt.Println("sent sellorderbook back")
+		}()
 
-		for _, trade := range trades {
-			rawTrade := trade.ToJSON()
-			ctx := context.Background()
-			msg := kafka.Message{Value: []byte(rawTrade)}
-			tradeProducer.WriteMessages(ctx, msg)
-		}
+		go func() {
+			for _, trade := range trades {
+				rawTrade := trade.ToJSON()
+				ctx := context.Background()
+				msg := kafka.Message{Value: []byte(rawTrade)}
+				tradeProducer.WriteMessages(ctx, msg)
+			}
+			fmt.Println("sent trades back")
+		}()
 	}
 }

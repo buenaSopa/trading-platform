@@ -29,7 +29,7 @@ const Trades = () => {
                     var dateNow = new Date()
                     obj.datetime = `${dateNow.getHours()}:${dateNow.getMinutes()}:${dateNow.getSeconds()}`
                     obj.price = fixedFloating(obj.price)
-                    // console.log("trades received: ", obj, time)
+                    console.log("trades received: ", obj, time)
                     setTrades(trades => [obj, ...trades])
                 })
             } else {
@@ -42,7 +42,7 @@ const Trades = () => {
     useEffect(() => {
         reconnect()      
         const interval = setInterval(() => {
-            var date = new Date()
+            let date = new Date()
             setTime(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`)
         }, 1000);
 

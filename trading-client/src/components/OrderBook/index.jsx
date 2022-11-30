@@ -100,7 +100,7 @@ const OrderBook = () => {
     }
 
     useEffect(() => {
-        console.log(`Orderbooks: ${JSON.stringify(sellOrders)} | ${JSON.stringify(buyOrders)} ||| ${buyOrders, sellOrders}`)
+        // console.log(`Orderbooks: ${JSON.stringify(sellOrders)} | ${JSON.stringify(buyOrders)} ||| ${buyOrders, sellOrders}`)
         if (buyOrders.length != 0 && sellOrders.length != 0) {
             setSpread(fixedFloating(sellOrders.slice(-1)[0][0] - buyOrders[0][0]))
         }
