@@ -24,4 +24,5 @@ A small scaled trading platform simulator containing trading engine and client i
 
 
 ## Client Interface
-![image](https://user-images.githubusercontent.com/59494865/197438993-74e4e491-d7e1-4829-83a4-3745a0afb4fe.png)
+![image](https://user-images.githubusercontent.com/59494865/225611040-6cf73f9b-e982-4380-bcd9-be07a020cdef.png)
+
