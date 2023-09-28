@@ -1,4 +1,4 @@
-# trading-platform (in-progress)
+# trading-platform
 A small scaled trading platform simulator containing trading engine and client interface.
 
 ## Techstack
